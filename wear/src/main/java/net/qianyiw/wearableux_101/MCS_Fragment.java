@@ -36,7 +36,7 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
     BroadcastReceiver broadcastReceiver;
     String gestureRecognition = "";
     View massageView, settingView;
-    int low_bolster_level = 0;
+    static boolean allowSwitch = true;
     public static final String BROADCAST_ACTION = "net.qianyiw.broadcasttest.returnresults";
     ImageView seat,massage_high, massage_low, massage_off, setting1, setting2, setting3;
     MessageServer myMessage;
@@ -184,8 +184,14 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
                     massageUpdateExecute(massageIdx);
                     break;
                 case "DOUBLE OUTSIDE":
-                    ((MCSActivity) getActivity()).pager.setCurrentItem(0,1);
-                    t1.speak("Setting segment", TextToSpeech.QUEUE_FLUSH, null);
+
+                    if(allowSwitch){
+                        allowSwitch = false;
+                        ((MCSActivity) getActivity()).pager.setCurrentItem(0,1);
+                        t1.speak("Setting segment", TextToSpeech.QUEUE_FLUSH, null);
+//                    Toast.makeText(getContext(),String.valueOf(((MCSActivity)getActivity()).pagerAdapter.currentIdx),0).show();
+                    }
+
                     break;
                 case "DOUBLE INSIDE":
                     getActivity().finish();
@@ -246,14 +252,18 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
                     settingUpdateExecute(settingIdx);
                     break;
                 case "DOUBLE OUTSIDE":
-                    ((MCSActivity) getActivity()).pager.setCurrentItem(0,0);
+                    if(allowSwitch){
+                    ((MCSActivity) getActivity()).pager.setCurrentItem(0, 0);
                     t1.speak("Massage segment", TextToSpeech.QUEUE_FLUSH, null);
+//                    Toast.makeText(getContext(),String.valueOf(((MCSActivity)getActivity()).pagerAdapter.currentIdx),0).show();
+                    }
                     break;
                 case "DOUBLE INSIDE":
                     getActivity().finish();
                     break;
             }
         }
+        allowSwitch = true;
     }
 
     public void settingUpdateExecute(int idx){
