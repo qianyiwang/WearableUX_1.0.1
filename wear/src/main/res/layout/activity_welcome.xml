@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="2sp"
+    android:paddingLeft="2sp"
+    android:paddingRight="2sp"
+    android:paddingTop="2sp"
+    tools:context="com.example.qwang97.sca.WelcomeActivity">
+
+    <ImageView
+        android:id="@+id/background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/welcome_background_watch"/>
+
+    <ImageView
+        android:id="@+id/ford_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ford_logo_2"/>
+
+</RelativeLayout>

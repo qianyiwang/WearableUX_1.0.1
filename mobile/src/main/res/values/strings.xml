@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WearableUX_1.0.1</string>
+    <!--<string name="LaneKeeping"><font fgcolor="red"><b>Lane Keeping Alert</b></font></string>-->
+    <!--<string name="Headway"><font fgcolor="red"><b>Headway Alert</b></font></string>-->
+    <!--<string name="BlindSpot"><font fgcolor="red"><b>Blind Spot Warning</b></font></string>-->
+    <!--<string name="Speed"><font fgcolor="red"><b>Speed Warning</b></font></string>-->
+</resources>

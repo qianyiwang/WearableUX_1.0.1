@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:id="@+id/temp_control">
+        <ImageButton
+            android:id="@+id/temp_down"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/minus_icon"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/front_temp_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="23"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/temp_up"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/plus_icon"
+            android:layout_alignParentRight="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fan_label"
+        android:orientation="horizontal"
+        android:layout_below="@+id/temp_control"
+        android:gravity="center"
+        android:layout_marginTop="0dp">
+
+        <ImageView
+            android:id="@+id/fan_1"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ind_active" />
+        <ImageView
+            android:id="@+id/fan_2"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ind_active"
+            android:layout_marginLeft="2dp"/>
+        <ImageView
+            android:id="@+id/fan_3"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ind_active"
+            android:layout_marginLeft="2dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ico"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/fan_4"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ind_def"
+            android:layout_marginLeft="2dp"/>
+        <ImageView
+            android:id="@+id/fan_5"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ind_def"
+            android:layout_marginLeft="2dp"/>
+        <ImageView
+            android:id="@+id/fan_6"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/fan_ind_def"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:id="@+id/fan_control"
+        android:layout_below="@+id/fan_label"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/fan_down"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_minus"
+            android:layout_alignParentLeft="true"/>
+
+
+        <ImageButton
+            android:id="@+id/fan_up"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_plus"
+            android:layout_alignParentRight="true"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_below="@+id/fan_control"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Front"
+        android:textStyle="bold"
+        android:textColor="#98ffffff"
+        android:textSize="14dp"/>
+
+</RelativeLayout>

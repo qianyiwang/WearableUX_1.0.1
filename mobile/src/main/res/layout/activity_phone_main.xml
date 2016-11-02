@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/config_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background_color"
+    tools:context="com.example.qwang97.sca.PhoneMainActivity">
+
+    <LinearLayout
+        android:id="@+id/topLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="15dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ford_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/ford_logo_2" />
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/bluetooth_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/bluetooth_icon_black"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="#FFFF"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/topLine"
+        android:text="Wearable UX Configurator" />
+
+    <LinearLayout
+        android:id="@+id/switch_line"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Driver Mode "
+            android:textColor="#FFFF"
+            android:textSize="15dp"/>
+        <ToggleButton
+            android:id="@+id/mode_switch"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  ADAS Demo "
+            android:textColor="#FFFF"
+            android:textSize="15dp"/>
+        <ToggleButton
+            android:id="@+id/adas_switch"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="ADAS Demo"
+            android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/switch_line"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_3"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="#FFFF"
+                android:layout_centerHorizontal="true"
+                android:text="Select device to control function "/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/climate_icon_v2"/>
+                <ImageButton
+                    android:id="@+id/climate_control_watch"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="75dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/watch_icon_v2"
+                    android:background="@drawable/click_button_off"/>
+
+                <ImageButton
+                    android:id="@+id/climate_control_hmi"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/click_button_on"
+                    android:src="@drawable/sync_icon_v2"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mcs_icon_v2"/>
+                <ImageButton
+                    android:id="@+id/mcs_control_watch"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/watch_icon_v2"
+                    android:background="@drawable/click_button_off"/>
+                <ImageButton
+                    android:id="@+id/mcs_control_hmi"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/click_button_on"
+                    android:src="@drawable/sync_icon_v2"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dest_icon_v2"/>
+                <ImageButton
+                    android:id="@+id/dest_set_hmi"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="165dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/click_button_on"
+                    android:src="@drawable/sync_icon_v2"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/audio_icon"/>
+                <ImageButton
+                    android:id="@+id/bluetooth_audio_watch"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/watch_icon_v2"
+                    android:background="@drawable/click_button_off"/>
+                <ImageButton
+                    android:id="@+id/bluetooth_audio_hmi"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/click_button_on"
+                    android:src="@drawable/sync_icon_v2"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/switch_phone_ic"/>
+                <ImageButton
+                    android:id="@+id/switch_phone_hmi"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="165dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/click_button_on"
+                    android:src="@drawable/sync_icon_v2"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/temperature_switch"/>
+                <ImageButton
+                    android:id="@+id/switch_temp_watch"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/watch_icon_v2"
+                    android:background="@drawable/click_button_off"/>
+                <ImageButton
+                    android:id="@+id/switch_temp_hmi"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/click_button_on"
+                    android:src="@drawable/sync_icon_v2"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title_4"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="#FFFF"
+                android:layout_centerHorizontal="true"
+                android:text="Select Watch ADAS Alerts"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/laneKeepingAlertButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginRight="0dp"
+                        android:background="@drawable/click_button_on"
+                        android:src="@drawable/lanekeep"/>
+
+
+                    <Spinner
+                        android:id="@+id/laneKeepingSpinner"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/click_button_on"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:popupBackground="@drawable/click_button_on"
+                        android:spinnerMode="dropdown" />
+
+
+                    <ImageView
+                        android:id="@+id/laneKeepVibTest"
+                        android:layout_marginLeft="0dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/vib_test"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/headwayAlertButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/click_button_on"
+                        android:src="@drawable/headway"/>
+
+                    <Spinner
+                        android:id="@+id/headwaySpinner"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/click_button_on"
+                        android:layout_centerHorizontal="true"
+                        android:popupBackground="@drawable/click_button_on"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:id="@+id/headwayVibTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/vib_test"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/speedAlertButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/click_button_on"
+                        android:src="@drawable/speed"/>
+
+                    <Spinner
+                        android:id="@+id/speedSpinner"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/click_button_on"
+                        android:layout_centerHorizontal="true"
+                        android:popupBackground="@drawable/click_button_on"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:id="@+id/speedVibTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/vib_test"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/blindSpotAlertButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/click_button_on"
+                        android:src="@drawable/blindspot"/>
+
+                    <Spinner
+                        android:id="@+id/blindSpotSpinner"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/click_button_on"
+                        android:layout_centerHorizontal="true"
+                        android:popupBackground="@drawable/click_button_on"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:id="@+id/blindSpotVibTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/vib_test"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PC3 TCP address"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/controlIpAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="192.168.1.2"/>
+                <Button
+                    android:id="@+id/controlConnectBT"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Connect"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mac TCP adress"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/hrIpAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="192.168.1.4"/>
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/hrConnectBT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Connect"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.qwang97.sca.Dest_SetActivity">
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/home_icon"/>
+    <ImageView
+        android:id="@+id/voice_command"
+        android:layout_below="@+id/back"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/voice_ic"/>
+
+</RelativeLayout>

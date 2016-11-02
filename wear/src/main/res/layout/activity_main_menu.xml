@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/watch_background_v2">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="SYNC RC"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <HorizontalScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollBar"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/climate_control"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:src="@drawable/climate_icon_v2"
+                android:background="@drawable/button_background" />
+
+            <ImageButton
+                android:id="@+id/mcs_control"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:src="@drawable/seat_icon"
+                android:background="@drawable/button_background"/>
+
+            <ImageButton
+                android:id="@+id/dest_set"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:src="@drawable/dest_icon_v2"
+                android:background="@drawable/button_background" />
+
+            <ImageButton
+                android:id="@+id/bluetooth_audio_button"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:src="@drawable/bluetooth_icon"
+                android:background="@drawable/button_background" />
+
+            <ImageButton
+                android:id="@+id/switch_phone"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:src="@drawable/switch_phone_icon"
+                android:background="@drawable/button_background" />
+
+            <ImageButton
+                android:id="@+id/switch_temp"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:src="@drawable/temperature_switch"
+                android:background="@drawable/button_background" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <ImageButton
+        android:id="@+id/setting_button"
+        android:layout_below="@+id/scrollBar"
+        android:layout_centerHorizontal="true"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:background="@drawable/setting_buttoh"/>
+
+
+</RelativeLayout>
