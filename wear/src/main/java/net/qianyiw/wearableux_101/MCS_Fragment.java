@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -38,13 +40,9 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
     public static final String BROADCAST_ACTION = "net.qianyiw.broadcasttest.returnresults";
     ImageView seat,massage_high, massage_low, massage_off, setting1, setting2, setting3;
     MessageServer myMessage;
+    TextToSpeech t1;
 
-    Timer timer;
-    TimerTask timerTask;
     Typeface custom_font;
-    final Handler handler = new Handler();
-    private static final ScheduledExecutorService worker =
-            Executors.newSingleThreadScheduledExecutor();
 
     public MCS_Fragment() {
         // Required empty public constructor
@@ -145,6 +143,14 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(gestureServicre.BROADCAST_ACTION));
+        t1=new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.US);
+                }
+            }
+        });
     }
 
     @Override
@@ -164,41 +170,56 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
                     else{
                         ++massageIdx;
                     }
-                    switch(massageIdx){
-                        case 0:
-                            seat.setImageResource(R.drawable.mcs_driver);
-                            myMessage.sendMessage("massage close");
-                            massage_high.setImageResource(R.drawable.hi_unselect);
-                            massage_low.setImageResource(R.drawable.low_unselect);
-                            massage_off.setImageResource(R.drawable.off_select);
-                            break;
-                        case 1:
-                            seat.setImageResource(R.drawable.seat_massage);
-                            myMessage.sendMessage("massage low");
-                            massage_high.setImageResource(R.drawable.hi_unselect);
-                            massage_low.setImageResource(R.drawable.low_select);
-                            massage_off.setImageResource(R.drawable.off_unselect);
-                            break;
-                        case 2:
-                            seat.setImageResource(R.drawable.seat_massage);
-                            myMessage.sendMessage("massage high");
-                            massage_high.setImageResource(R.drawable.hi_select);
-                            massage_low.setImageResource(R.drawable.low_unselect);
-                            massage_off.setImageResource(R.drawable.off_unselect);
-                            break;
-                    }
+                    massageUpdateExecute(massageIdx);
 //                    Toast.makeText(getContext(),"update massage",0).show();
 
                     break;
                 case "SINGLE INSIDE":
-
+                    if(massageIdx==0){
+                        massageIdx = 2;
+                    }
+                    else{
+                        --massageIdx;
+                    }
+                    massageUpdateExecute(massageIdx);
                     break;
                 case "DOUBLE OUTSIDE":
-
+                    ((MCSActivity) getActivity()).pager.setCurrentItem(0,1);
+                    t1.speak("Setting segment", TextToSpeech.QUEUE_FLUSH, null);
                     break;
                 case "DOUBLE INSIDE":
+                    getActivity().finish();
                     break;
             }
+        }
+    }
+
+    public void massageUpdateExecute(int idx){
+        switch(idx){
+            case 0:
+                seat.setImageResource(R.drawable.mcs_driver);
+                myMessage.sendMessage("massage close");
+                massage_high.setImageResource(R.drawable.hi_unselect);
+                massage_low.setImageResource(R.drawable.low_unselect);
+                massage_off.setImageResource(R.drawable.off_select);
+                t1.speak("Massage Off", TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case 1:
+                seat.setImageResource(R.drawable.seat_massage);
+                myMessage.sendMessage("massage low");
+                massage_high.setImageResource(R.drawable.hi_unselect);
+                massage_low.setImageResource(R.drawable.low_select);
+                massage_off.setImageResource(R.drawable.off_unselect);
+                t1.speak("Massage Low", TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case 2:
+                seat.setImageResource(R.drawable.seat_massage);
+                myMessage.sendMessage("massage high");
+                massage_high.setImageResource(R.drawable.hi_select);
+                massage_low.setImageResource(R.drawable.low_unselect);
+                massage_off.setImageResource(R.drawable.off_unselect);
+                t1.speak("Massage High", TextToSpeech.QUEUE_FLUSH, null);
+                break;
         }
     }
 
@@ -213,38 +234,52 @@ public class MCS_Fragment extends Fragment implements View.OnClickListener{
                     else{
                         --settingIdx;
                     }
-                    switch(settingIdx){
-                        case 0:
-                            setting1.setImageResource(R.drawable.m1_select);
-                            setting2.setImageResource(R.drawable.m2_unselect);
-                            setting3.setImageResource(R.drawable.m3_unselect);
-                            sendCommand("M1");
-                            break;
-                        case 1:
-                            setting1.setImageResource(R.drawable.m1_unselect);
-                            setting2.setImageResource(R.drawable.m2_select);
-                            setting3.setImageResource(R.drawable.m3_unselect);
-                            sendCommand("M2");
-                            break;
-                        case 2:
-                            setting1.setImageResource(R.drawable.m1_unselect);
-                            setting2.setImageResource(R.drawable.m2_unselect);
-                            setting3.setImageResource(R.drawable.m3_select);
-                            sendCommand("M3");
-                            break;
-                    }
+                    settingUpdateExecute(settingIdx);
                     break;
                 case "SINGLE INSIDE":
-
+                    if(settingIdx==2){
+                        settingIdx = 0;
+                    }
+                    else{
+                        ++settingIdx;
+                    }
+                    settingUpdateExecute(settingIdx);
                     break;
                 case "DOUBLE OUTSIDE":
-
+                    ((MCSActivity) getActivity()).pager.setCurrentItem(0,0);
+                    t1.speak("Massage segment", TextToSpeech.QUEUE_FLUSH, null);
                     break;
                 case "DOUBLE INSIDE":
+                    getActivity().finish();
                     break;
             }
         }
+    }
 
+    public void settingUpdateExecute(int idx){
+        switch(idx){
+            case 0:
+                setting1.setImageResource(R.drawable.m1_select);
+                setting2.setImageResource(R.drawable.m2_unselect);
+                setting3.setImageResource(R.drawable.m3_unselect);
+                sendCommand("M1");
+                t1.speak("Setting M1 Selected ", TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case 1:
+                setting1.setImageResource(R.drawable.m1_unselect);
+                setting2.setImageResource(R.drawable.m2_select);
+                setting3.setImageResource(R.drawable.m3_unselect);
+                sendCommand("M2");
+                t1.speak("Setting M2 Selected ", TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case 2:
+                setting1.setImageResource(R.drawable.m1_unselect);
+                setting2.setImageResource(R.drawable.m2_unselect);
+                setting3.setImageResource(R.drawable.m3_select);
+                sendCommand("M3");
+                t1.speak("Setting M3 Selected ", TextToSpeech.QUEUE_FLUSH, null);
+                break;
+        }
     }
 
     @Override
