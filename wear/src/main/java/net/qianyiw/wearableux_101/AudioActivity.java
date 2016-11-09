@@ -37,6 +37,10 @@ public class AudioActivity extends Activity implements View.OnClickListener{
     String gestureRecognition = "";
     TextToSpeech t1;
 
+    SharedPreferences prefs;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    Boolean gestureOn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +93,9 @@ public class AudioActivity extends Activity implements View.OnClickListener{
                 }
             }
         });
+
+        prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        gestureOn = prefs.getBoolean("gesture_status", false);
     }
 
     private void updateUI(String s) {
@@ -147,7 +154,10 @@ public class AudioActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-        startService(new Intent(getBaseContext(), gestureServicre.class));
+        if(gestureOn){
+            startService(new Intent(getBaseContext(), gestureServicre.class));
+        }
+
         registerReceiver(broadcastReceiver, new IntentFilter(gestureServicre.BROADCAST_ACTION));
     }
 

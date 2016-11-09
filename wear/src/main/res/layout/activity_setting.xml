@@ -59,11 +59,11 @@
 
             </LinearLayout>
             <ImageView
-                android:id="@+id/setting_init"
+                android:id="@+id/gesture_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/setting_initial"/>
+                android:layout_marginLeft="0dp"
+                android:src="@drawable/gesture_off"/>
         </LinearLayout>
 
     </ScrollView>

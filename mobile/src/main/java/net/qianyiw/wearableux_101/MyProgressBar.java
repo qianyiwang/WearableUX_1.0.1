@@ -51,11 +51,12 @@ public class MyProgressBar extends ProgressBar {
 //                canvas.drawLine((float) xPosition1.get(i), getHeight()/2, (float)xPosition2.get(i), getHeight()/2,p);
 //            }
         p.setColor(Color.RED);
-        p.setStrokeJoin(Paint.Join.ROUND);
-        p.setStrokeCap(Paint.Cap.ROUND);
+//        p.setStrokeJoin(Paint.Join.ROUND);
+//        p.setStrokeCap(Paint.Cap.ROUND);
         p.setStrokeWidth(10);
         for (PointF point : graphics) {
-            canvas.drawPoint(point.x, point.y, p);
+//            canvas.drawPoint(point.x, point.y, p);
+            canvas.drawLine(point.x, point.y-150, point.x, point.y, p);
         }
 
     }
@@ -63,7 +64,8 @@ public class MyProgressBar extends ProgressBar {
     public void setDown(){
         this.touchDown = true;
         x1 = getProgress();
-        y1 = getHeight()/2;
+//        y1 = getHeight()/2;
+        y1 = getHeight();
 //        Log.v("x1", String.valueOf(x1/4));
 //        xPosition1.add((float)x1/4);
 //        this.touchDown = true;

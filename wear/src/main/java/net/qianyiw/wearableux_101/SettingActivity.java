@@ -36,10 +36,10 @@ public class SettingActivity extends Activity implements View.OnClickListener, D
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     SharedPreferences.Editor editor;
 
-    Boolean hear_rate_status, isRegistered;
+    Boolean hear_rate_status, isRegistered, gestureOn = false;
     boolean adas_on, adas_demo_on;
 
-    ImageView heartrate_setting, adas_setting, homeBT, setting_init;
+    ImageView heartrate_setting, adas_setting, homeBT, gesture_setting;
     TextView heart_rate_value;
     Vibrator vibrator;
     MessageServer myMessage;
@@ -64,19 +64,28 @@ public class SettingActivity extends Activity implements View.OnClickListener, D
 //        registerReceiver(broadcastReceiver, new IntentFilter(HeartRateService.BROADCAST_ACTION));
         editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+//        editor.clear().commit();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         hear_rate_status = prefs.getBoolean("hear_rate_status", false);
+        gestureOn = prefs.getBoolean("gesture_status", false);
 
         heartrate_setting = (ImageView) findViewById(R.id.heartrate_setting);
         heartrate_setting.setOnClickListener(this);
 
-        setting_init = (ImageView) findViewById(R.id.setting_init);
-        setting_init.setOnClickListener(this);
+        gesture_setting = (ImageView) findViewById(R.id.gesture_setting);
+        gesture_setting.setOnClickListener(this);
 
         if(hear_rate_status)
         {
             heartrate_setting.setImageResource(R.drawable.heart_color_big);
+        }
+
+        if(gestureOn){
+            gesture_setting.setImageResource(R.drawable.gesture_on);
+        }
+        else{
+            gesture_setting.setImageResource(R.drawable.gesture_off);
         }
 
         adas_setting = (ImageView) findViewById(R.id.adas_setting);
@@ -168,9 +177,18 @@ public class SettingActivity extends Activity implements View.OnClickListener, D
                 myMessage.sendMessage("home");
                 finish();
                 break;
-            case R.id.setting_init:
+            case R.id.gesture_setting:
                 vibrator.vibrate(50);
-                editor.clear().commit();
+//                editor.clear().commit();
+                gestureOn = !gestureOn;
+                editor.putBoolean("gesture_status", gestureOn).commit();
+                if(gestureOn){
+                    gesture_setting.setImageResource(R.drawable.gesture_on);
+                }
+                else{
+                    gesture_setting.setImageResource(R.drawable.gesture_off);
+                }
+
                 break;
         }
     }

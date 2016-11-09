@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -24,12 +25,10 @@ public class MCSActivity extends Activity implements View.OnClickListener{
     ImageView backBT;
     Vibrator vibrator;
     MessageServer myMessage;
-    BroadcastReceiver broadcastReceiver;
-    String gestureRecognition = "";
-    int messageIdx = 0;
-    int settingIdx = 0;
     MCS_PagerAdapter pagerAdapter;
-    MCS_Fragment mcs_fragment;
+    SharedPreferences prefs;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    Boolean gestureOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +50,17 @@ public class MCSActivity extends Activity implements View.OnClickListener{
         myMessage = new MessageServer(this);
         myMessage.myApiClient.connect();
 
+        prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        gestureOn = prefs.getBoolean("gesture_status", false);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        startService(new Intent(this, gestureServicre.class));
+        if(gestureOn) {
+            startService(new Intent(this, gestureServicre.class));
+        }
     }
 
     @Override
