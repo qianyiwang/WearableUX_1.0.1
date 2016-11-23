@@ -1259,6 +1259,11 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                             firstTouch = false;
                         }
 
+                        int x1 = progressBar.getProgress();
+                        int y1 = progressBar.getHeight()/2;
+                        progressBar.graphics.add(new PointF(x1 / 4, y1));
+                        progressBar.invalidate();
+
                         vibrator.vibrate(50);
                         timeInt = System.currentTimeMillis();
                         timePrev = timeInt - timeFin;
