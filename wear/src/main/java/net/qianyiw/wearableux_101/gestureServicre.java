@@ -10,7 +10,6 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,15 +28,12 @@ public class gestureServicre extends Service implements SensorEventListener {
     private float mGry; // acceleration apart from gravity
     private float mGryCurrent; // current acceleration including gravity
     private float mGryLast; // last acceleration including gravity
-    private float mAcc; // acceleration apart from gravity
-    private float mAccCurrent; // current acceleration including gravity
-    private float mAccLast; // last acceleration including gravity
-    float thresh_peak = 6; //the threshold to start analysis data
-    long thresh_interval = 1000; // threshold of analysis data period
-    ArrayList dataArray_acc_x = new ArrayList();
+    private float yAcc; // acceleration apart from gravity
+    private float yAccCurrent; // current acceleration including gravity
+    private float yAccLast; // last acceleration including gravity
+    ArrayList dataArray_acc_y = new ArrayList();
     ArrayList dataGry = new ArrayList();
-    boolean findFirstPeak = false;
-    boolean gripDect = true;
+    boolean trigger = false;
 
     public static final String BROADCAST_ACTION = "net.qianyiw.broadcasttest.returnresults";
     Intent intent;
@@ -82,17 +78,15 @@ public class gestureServicre extends Service implements SensorEventListener {
             float delta = mGryCurrent - mGryLast;
             mGry = mGry * 0.9f + delta; // perform low-cut filter
 
-            if(mGry>=thresh_peak) {
-                if (!findFirstPeak) {
-                    findFirstPeak = true;
-                    setFlag();
-                } else {
-                    //                    dataArr.add(omegaMagnitude);
-                    //                    dataArr_x.add(gry_x);
-                    dataArray_acc_x.add(acc_y);
-                    Log.v("hand moving acc_z", String.valueOf(acc_y_lowpass));
-                    dataGry.add(mGry);
+            if(mGry>=6) {
+                if (!trigger) {
+                    trigger = true;
+                    excute();
                 }
+            }
+
+            if(trigger){
+                dataGry.add(mGry);
             }
         }
 
@@ -100,81 +94,77 @@ public class gestureServicre extends Service implements SensorEventListener {
             acc_x = event.values[0];
             acc_y = event.values[1];
             acc_z= event.values[2];
-            acc_y_lowpass = acc_y_lowpass * 0.8f + (1 - 0.8f) * event.values[1];
+//            acc_y_lowpass = acc_y_lowpass * 0.8f + (1 - 0.8f) * event.values[1];
+            yAccLast = yAccCurrent;
+            yAccCurrent = acc_y;//(float) Math.sqrt(acc_x * acc_x + acc_y * acc_y + acc_z * acc_z);
+            float delta = yAccCurrent - yAccLast;
+            yAcc = yAcc * 0.9f + delta; // perform low-cut filter
 
-            mAccLast = mAccCurrent;
-            mAccCurrent = (float) Math.sqrt(acc_x * acc_x + acc_y * acc_y + acc_z * acc_z);
-            float delta = mAccCurrent - mAccLast;
-            mAcc = mAcc * 0.9f + delta; // perform low-cut filter
-            if(acc_z>5&&Math.abs(acc_x)<2&&Math.abs(acc_y)<2&&gripDect){
-                gripDect = false;
+            if(trigger){
+                dataArray_acc_y.add(yAcc);
             }
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable(){
-
-                @Override
-                public void run() {
-                    gripDect = true;
-                }
-            },1000);
 
         }
     }
 
-    public void setFlag(){
+    private boolean checkIfOutside(ArrayList<Float> dataArr){
+        for(float f: dataArr){
+            if(f>20){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void excute(){
         // Execute some code after 2 seconds have passed
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                findFirstPeak = false;
-                ArrayList peakNum_gry = new ArrayList();
-                ArrayList peakNum_acc = new ArrayList();
-                peakNum_gry = findPeaks(dataGry);
-                peakNum_acc = findPeaks(dataArray_acc_x);
+                trigger = false;
+                ArrayList peakNum_gry = findPeaks(dataGry);
                 for (int j=0;j<dataGry.size();j++){
 //                    Log.v("dataGry", dataGry.get(j).toString());
                 }
 //                Log.v("len peakNum_gry", String.valueOf(peakNum_gry.size()));
 //                Log.v("len peakNum_acc", String.valueOf(peakNum_acc.size()));
 
-                if(!dataArray_acc_x.isEmpty()){
-                    if((float) Collections.min(dataArray_acc_x)<-15) // inside
-                    {
-                        if(peakNum_gry.size()>=2){
-                            vibrator.vibrate(50);
-                            intent.putExtra("gesture_result", "DOUBLE INSIDE");
-                            sendBroadcast(intent);
-                        }
-                        else{
-                            vibrator.vibrate(50);
-                            intent.putExtra("gesture_result", "SINGLE INSIDE");
-                            sendBroadcast(intent);
-                        }
+                if(peakNum_gry.size()>=2){
+                    if(checkIfOutside(dataArray_acc_y)){
+                        vibrator.vibrate(50);
+                        intent.putExtra("gesture_result", "DOUBLE OUTSIDE");
+                        sendBroadcast(intent);
                     }
-                    else // outside
-                    {
-                        if(peakNum_gry.size()>=2){
-                            vibrator.vibrate(50);
-                            intent.putExtra("gesture_result", "DOUBLE OUTSIDE");
-                            sendBroadcast(intent);
-                        }
-                        else{
-                            vibrator.vibrate(50);
-                            intent.putExtra("gesture_result", "SINGLE OUTSIDE");
-                            sendBroadcast(intent);
-                        }
+                    else{
+                        vibrator.vibrate(50);
+                        intent.putExtra("gesture_result", "DOUBLE INSIDE");
+                        sendBroadcast(intent);
+                    }
+                }
+                else{
+                    if(checkIfOutside(dataArray_acc_y)){
+                        vibrator.vibrate(50);
+                        intent.putExtra("gesture_result", "SINGLE OUTSIDE");
+                        sendBroadcast(intent);
+                    }
+                    else{
+                        vibrator.vibrate(50);
+                        intent.putExtra("gesture_result", "SINGLE INSIDE");
+                        sendBroadcast(intent);
                     }
                 }
 
-                dataArray_acc_x.clear();
+                dataArray_acc_y.clear();
                 dataGry.clear();
             }
-        }, thresh_interval);
+        }, 1000);
     }
 
-    public ArrayList findPeaks(ArrayList dataArr){
-        ArrayList peakNum = new ArrayList();
+    private ArrayList findPeaks(ArrayList<Float> dataArr){
+        ArrayList<Float> bigVal = new ArrayList();
+        ArrayList<Float> peakNum = new ArrayList();
 
         for (int i=1; i<dataArr.size(); i++){
 
@@ -183,9 +173,14 @@ public class gestureServicre extends Service implements SensorEventListener {
                     peakNum.add((float)dataArr.get(i));
                 }
             }
-
         }
-        return peakNum;
+
+        for(float f: peakNum){
+            if(f>10){
+                bigVal.add(f);
+            }
+        }
+        return bigVal;
     }
 
     @Override
