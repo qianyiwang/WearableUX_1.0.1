@@ -52,6 +52,7 @@ public class MCSActivity extends Activity implements View.OnClickListener{
 
         prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         gestureOn = prefs.getBoolean("gesture_status", false);
+        Log.v("MCSActivity::gesture on", String.valueOf(gestureOn));
 
     }
 

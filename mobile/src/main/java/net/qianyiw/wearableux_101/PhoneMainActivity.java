@@ -1046,7 +1046,8 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
         devicesArray = bluetoothAdapter.getBondedDevices();
         if(devicesArray.size()>0){
             for(BluetoothDevice device:devicesArray){
-                pairedDevices.add(device.getName());
+//                pairedDevices.add(device.getName());
+                Log.v("device", device.getName() + ":" + device.getAddress());
             }
         }
     }

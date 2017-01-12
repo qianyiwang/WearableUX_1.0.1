@@ -124,7 +124,7 @@ public class BluetoothService_v2 extends Service {
 
                         Log.v("LaneKeeping",String.valueOf(laneKeepingAlert));
                         LKthisTime = System.currentTimeMillis();
-                        if (LKthisTime - LKlastTime > 2000) {
+                        if (LKthisTime - LKlastTime > 10000) {
                             String LKstring = alertText.replaceAll("[^.0123456789]", "");
                             LKlastTime = System.currentTimeMillis();
 //                            postNotifications(context, lkVibrate, R.mipmap.lane_keeping_alert, "Lane Keeping Alert", "", adas_demo_on);

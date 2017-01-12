@@ -416,7 +416,7 @@
                     android:id="@+id/controlIpAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="192.168.1.2"/>
+                    android:text="192.168.0.12"/>
                 <Button
                     android:id="@+id/controlConnectBT"
                     android:layout_marginLeft="10dp"
