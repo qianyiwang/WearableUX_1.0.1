@@ -53,6 +53,11 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -143,6 +148,10 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
     MyCountDownTimer myCountDownTimer;
     Boolean firstTouch = true;
 
+    //********************** UDP Client variable **************************
+    InetAddress udpAddress;
+    DatagramPacket packet;
+    DatagramSocket socket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,6 +277,17 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
 
         shake_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 
+        // UDP client
+        try {
+            udpAddress = InetAddress.getByName("192.168.0.135");
+            socket = new DatagramSocket() ;
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void initialButtonStatus() {
@@ -315,6 +335,9 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
         else
         {
             Log.v("isDeviceRegistered","deviceReceiver is not registered");
+        }
+        if( socket != null ) {
+            socket.close();
         }
     }
 
@@ -987,7 +1010,15 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                     }
                     // heart rate data transfer
                     else if (msg.contains("MyHeartRate")) {
-
+                        byte [] data = msg.getBytes() ;
+                        packet = new DatagramPacket( data, data.length, udpAddress, 8001 ) ;
+                        try {
+                            socket.send( packet ) ;
+                            // Set a receive timeout, 2000 milliseconds
+                            socket.setSoTimeout( 2000 ) ;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         if (myTcpSocket_2 == null) {
                             Toast.makeText(getApplicationContext(), "Please join the HR network first", 0).show();
                         } else {
