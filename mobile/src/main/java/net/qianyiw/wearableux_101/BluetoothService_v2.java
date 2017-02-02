@@ -124,7 +124,7 @@ public class BluetoothService_v2 extends Service {
 
                         Log.v("LaneKeeping",String.valueOf(laneKeepingAlert));
                         LKthisTime = System.currentTimeMillis();
-                        if (LKthisTime - LKlastTime > 10000) {
+                        if (LKthisTime - LKlastTime > 1000) {
                             String LKstring = alertText.replaceAll("[^.0123456789]", "");
                             LKlastTime = System.currentTimeMillis();
 //                            postNotifications(context, lkVibrate, R.mipmap.lane_keeping_alert, "Lane Keeping Alert", "", adas_demo_on);
@@ -155,7 +155,6 @@ public class BluetoothService_v2 extends Service {
                             }
                         }
                     }
-
                     if (alertText.contains("Headway")&&headwayAlert) {
 
                         HWthisTime = System.currentTimeMillis();
@@ -227,7 +226,7 @@ public class BluetoothService_v2 extends Service {
                     if (alertText.contains("Speed")&&speedAlert) {
 
                         SPthisTime = System.currentTimeMillis();
-                        if (SPthisTime - SPlastTime > 1000) {
+                        if (SPthisTime - SPlastTime > 10000) {
                             String SPstring = alertText.replaceAll("[^.0123456789]", "");
                             SPlastTime = System.currentTimeMillis();
 //                            postNotifications(context, spVibrate, R.mipmap.speed_alert, "Speed Warning", "", adas_demo_on);
