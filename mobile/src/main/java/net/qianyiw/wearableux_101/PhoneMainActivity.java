@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -89,7 +90,9 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
     EditText controlIpAddress, hrIpAddress;
     Button controlConnectBT, hrConnectBT;
     TcpSocketConnect myTcpSocket, myTcpSocket_2;
+    UDPClient udp;
     String hrIp = "", gps = "";
+    String hrMsg = "";
     BroadcastReceiver broadcastReceiver;
     Vibrator vibrator;
     GoogleApiClient apiClient;
@@ -277,16 +280,9 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
 
         shake_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 
-        // UDP client
-        try {
-            udpAddress = InetAddress.getByName("192.168.0.135");
-            socket = new DatagramSocket() ;
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
+        // start UDP async task
+        udp = new UDPClient("192.168.0.135");
+        udp.execute();
 
     }
 
@@ -316,6 +312,7 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        udp.cancel(true);
         if (isReceiverRegistered)
         {
             Log.v("isReceiverRegistered",isReceiverRegistered.toString());
@@ -1010,15 +1007,9 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                     }
                     // heart rate data transfer
                     else if (msg.contains("MyHeartRate")) {
-                        byte [] data = msg.getBytes() ;
-                        packet = new DatagramPacket( data, data.length, udpAddress, 8001 ) ;
-                        try {
-                            socket.send( packet ) ;
-                            // Set a receive timeout, 2000 milliseconds
-                            socket.setSoTimeout( 2000 ) ;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
+                        hrMsg = msg;
+
                         if (myTcpSocket_2 == null) {
                             Toast.makeText(getApplicationContext(), "Please join the HR network first", 0).show();
                         } else {
@@ -1028,6 +1019,7 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                                 myTcpSocket_2.writeSocket(msg + "_");
                         }
                     } else if (msg.equals("stop")) {
+                        hrMsg = "";
 
                         if (myTcpSocket_2 == null) {
                             Toast.makeText(getApplicationContext(), "Please join the HR network first", 0).show();
@@ -1507,6 +1499,55 @@ public class PhoneMainActivity extends AppCompatActivity implements View.OnClick
                     .setVibrate(vibration);
             return new Notification[]{summaryBuilder.build()};
             }
+
+    }
+
+    public class UDPClient extends AsyncTask<Void, Void, Void>{
+
+        UDPClient(String addr){
+            try {
+                udpAddress = InetAddress.getByName(addr);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                socket = new DatagramSocket() ;
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
+            while (true){
+                if (isCancelled())
+                {
+                    break;
+                }
+                if (hrMsg!=""){
+//                    String hr = msgParsing(hrMsg);
+                    packet = new DatagramPacket( hrMsg.getBytes(), hrMsg.getBytes().length, udpAddress, 8001 );
+                    try {
+                        socket.send(packet);
+                        Log.v("send UDP", hrMsg);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        private String msgParsing(String msg){
+            int pos = msg.indexOf(':');
+            return msg.substring(pos+1);
+        }
 
     }
 }
